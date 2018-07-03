@@ -15,6 +15,7 @@
         android:layout_marginStart="13dp"
         android:layout_marginTop="19dp"
         android:ems="10"
+        android:maxLength="140"
         android:hint="your tweet"
         android:inputType="textPersonName"
         tools:layout_editor_absoluteX="16dp"
@@ -29,4 +30,13 @@
         android:layout_marginTop="94dp"
         android:text="Send"
         android:onClick="sendTweet"/>
+
+    <TextView
+        android:id="@+id/charCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/compose_box"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="70dp"
+        android:text="TextView" />
 </RelativeLayout>
