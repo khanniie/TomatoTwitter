@@ -69,6 +69,12 @@ public class TimelineActivity extends AppCompatActivity {
         populateTimeline();
     }
 
+//    @Override
+//    public void onResume(){
+////        super.onResume();
+////        fetchTimelineAsync(0);
+//    }
+
     public void fetchTimelineAsync(int page) {
         // Send the network request to fetch the updated data
         // `client` here is an instance of Android Async HTTP
@@ -126,7 +132,6 @@ public class TimelineActivity extends AppCompatActivity {
             new JsonHttpResponseHandler() {
               @Override
               public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Toast.makeText(TimelineActivity.this, "did a correcrt ghing", Toast.LENGTH_SHORT).show();
                 final List<Tweet> temp_list = new ArrayList<>();
 
                 for (int i = 0; i < response.length(); i++) {
@@ -158,8 +163,6 @@ public class TimelineActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-
-
                 }
             }
 
@@ -185,6 +188,7 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.d("TwitterClient", responseString);
                 throwable.printStackTrace();
             }
+
         });
     }
 }

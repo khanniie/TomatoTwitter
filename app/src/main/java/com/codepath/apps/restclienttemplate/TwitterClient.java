@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.github.scribejava.apis.TwitterApi;
@@ -23,8 +24,6 @@ import com.loopj.android.http.RequestParams;
 public class TwitterClient extends OAuthBaseClient {
 	public static final BaseApi REST_API_INSTANCE = TwitterApi.instance(); // Change this
 	public static final String REST_URL = "https://api.twitter.com/1.1"; // Change this, base API URL
-	public static final String REST_CONSUMER_KEY = "o5KKmPWmVnCNTOSD8MYXYLt53";       // Change this
-	public static final String REST_CONSUMER_SECRET = "WwnbFONQE1JHkgRazGSlob9jUo0p9Z57e9MgVM3s8WtnhESAO5"; // Change this
 
 	// Landing page to indicate the OAuth flow worked in case Chrome for Android 25+ blocks navigation back to the app.
 	public static final String FALLBACK_URL = "https://codepath.github.io/android-rest-client-template/success.html";
@@ -32,11 +31,13 @@ public class TwitterClient extends OAuthBaseClient {
 	// See https://developer.chrome.com/multidevice/android/intents
 	public static final String REST_CALLBACK_URL_TEMPLATE = "intent://%s#Intent;action=android.intent.action.VIEW;scheme=%s;package=%s;S.browser_fallback_url=%s;end";
 
+
 	public TwitterClient(Context context) {
+        //context.getString();
 		super(context, REST_API_INSTANCE,
 				REST_URL,
-				REST_CONSUMER_KEY,
-				REST_CONSUMER_SECRET,
+                context.getString(R.string.consumer_key),
+				context.getString(R.string.consumer_secret),
 				String.format(REST_CALLBACK_URL_TEMPLATE, context.getString(R.string.intent_host),
 						context.getString(R.string.intent_scheme), context.getPackageName(), FALLBACK_URL));
 	}
@@ -67,5 +68,25 @@ public class TwitterClient extends OAuthBaseClient {
 		params.put("status", message);
 		client.post(apiUrl, params, handler);
 	}
+
+	public void likeTweet(String id, AsyncHttpResponseHandler handler) {
+        Log.d("ID", id);
+		///favorites/create.json?id=243138128959913986
+		String apiUrl = getApiUrl("favorites/create.json");
+		// Can specify query string params directly or through RequestParams.
+		RequestParams params = new RequestParams();
+		params.put("id", id);
+		client.post(apiUrl, params, handler);
+	}
+
+    public void unlikeTweet(String id, AsyncHttpResponseHandler handler) {
+        Log.d("ID", id);
+        ///favorites/create.json?id=243138128959913986
+        String apiUrl = getApiUrl("favorites/destroy.json");
+        // Can specify query string params directly or through RequestParams.
+        RequestParams params = new RequestParams();
+        params.put("id", id);
+        client.post(apiUrl, params, handler);
+    }
 
 }

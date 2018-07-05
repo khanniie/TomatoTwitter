@@ -17,6 +17,10 @@ public class Tweet {
     public long uid;
     public String createdAt;
     public User user;
+    public String retweet_count;
+    public String fav_count;
+    public String tweet_id;
+    public boolean favorited;
 
     public Tweet(){
 
@@ -29,6 +33,12 @@ public class Tweet {
         tweet.uid = jsonObject.getLong("id");
         tweet.createdAt = getRelativeTimeAgo(jsonObject.getString("created_at"));
         tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
+//        tweet.retweet_count = "rt";
+//        tweet.fav_count = "faves";
+        tweet.retweet_count = jsonObject.getString("retweet_count");
+        tweet.fav_count = jsonObject.getString("favorite_count");
+        tweet.tweet_id = jsonObject.getString("id");
+        tweet.favorited = jsonObject.getBoolean("favorited");
         return tweet;
     }
 
@@ -47,6 +57,10 @@ public class Tweet {
         }
 
         return relativeDate;
+    }
+
+    public void setFavoriteStatus(boolean status){
+        favorited  = status;
     }
 
 
