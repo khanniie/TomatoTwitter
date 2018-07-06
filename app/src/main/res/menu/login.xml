@@ -3,7 +3,8 @@
 
     <item
         android:id="@+id/miCompose"
-        android:icon="@drawable/compose_temp"
+        android:icon="@drawable/ic_vector_compose"
+        android:iconTint="#FFFFFF"
         app:showAsAction="ifRoom"
         android:onClick="onComposeAction"
         android:title="Compose">

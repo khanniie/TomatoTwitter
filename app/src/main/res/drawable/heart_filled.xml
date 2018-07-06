@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true"
+          android:drawable="@drawable/ic_vector_heart"
+          android:tint = "#AA0044"/>
+    <item android:drawable="@drawable/ic_vector_heart_stroke"
+          android:tint = "#555555"
+          android:state_selected="false"/>
+</selector>

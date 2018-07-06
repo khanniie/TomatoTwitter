@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,13 +24,14 @@ import cz.msebera.android.httpclient.Header;
 public class TweetDetailActivity extends AppCompatActivity {
 
     ImageView ivProfileImage;
+    ImageView ivMedia;
     TextView tvUserName;
     TextView tvDate;
     TextView tvBody;
     TextView tvRetweets;
     TextView tvLikes;
-    Button btnLike;
-    Button btnRT;
+    ImageButton btnLike;
+    ImageButton btnRT;
     TwitterClient client;
     Integer favorite_count;
     String uid;
@@ -53,17 +54,30 @@ public class TweetDetailActivity extends AppCompatActivity {
         tvLikes = findViewById(R.id.tvLikeAmt);
         btnLike = findViewById(R.id.btnLike);
         btnRT = findViewById(R.id.btnRT);
+        ivMedia = findViewById(R.id.ivMedia);
 
         if(tweet.favorited){
-            btnLike.setText("Liked");
+            btnLike.setBackgroundResource(R.drawable.ic_vector_heart);
         }
         if(tweet.retweeted){
-            btnRT.setText("UN-RETWEET");
+            btnRT.setBackgroundResource(R.drawable.ic_vector_retweet);
         }
 
         Glide.with(this).load(tweet.user.profileImageUrl).into(ivProfileImage);
         uid = tweet.uid + "";
         favorite_count = Integer.parseInt(tweet.fav_count);
+
+        if(tweet.has_media){
+            Toast.makeText(this, "has media: " + tweet.media_type, Toast.LENGTH_LONG).show();
+            if(tweet.media_type.equals("animated_gif")){
+                Glide.with(this).load(tweet.media_url).asGif().into(ivMedia);
+            }
+            else{
+                Glide.with(this).load(tweet.media_url).into(ivMedia);
+            }
+        } else{
+            ivMedia.setVisibility(View.GONE);
+        }
 
         tvBody.setText(tweet.body);
         tvDate.setText(tweet.createdAt);
@@ -96,10 +110,10 @@ public class TweetDetailActivity extends AppCompatActivity {
 
                     if(undo){
                         Toast.makeText(context, "UN-Retweeted!", Toast.LENGTH_LONG).show();
-                        btnRT.setText("RETWEET");
+                        btnRT.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
                     } else {
                         Toast.makeText(context, "Retweeted!", Toast.LENGTH_LONG).show();
-                        btnRT.setText("UN-RETWEET");
+                        btnRT.setBackgroundResource(R.drawable.ic_vector_retweet);
                     }
 
                 } catch (JSONException e) {
@@ -116,6 +130,7 @@ public class TweetDetailActivity extends AppCompatActivity {
     }
 
     public void likePost(View view){
+        boolean favorited = tweet.favorited;
         client.likeTweet(tweet.favorited, uid, new JsonHttpResponseHandler(){
 
             @Override
@@ -125,11 +140,11 @@ public class TweetDetailActivity extends AppCompatActivity {
                     tweet = Tweet.fromJson(response);
                     tvLikes.setText(tweet.fav_count);
                     if(tweet.favorited){
-                        btnLike.setText("UnLike");
+                        btnLike.setBackgroundResource(R.drawable.ic_vector_heart);
                         tweet.setFavoriteStatus(true);
                         Toast.makeText(context, "Liked Post!", Toast.LENGTH_LONG).show();
                     } else{
-                        btnLike.setText("Like");
+                        btnLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
                         tweet.setFavoriteStatus(false);
                         Toast.makeText(context, "Unliked Post!", Toast.LENGTH_LONG).show();
                     }

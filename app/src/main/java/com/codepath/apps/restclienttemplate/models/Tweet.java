@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate.models;
 
 import android.text.format.DateUtils;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,6 +25,7 @@ public class Tweet {
     public boolean retweeted;
     public boolean has_media;
     public String media_url;
+    public String media_type;
 
     public Tweet(){
 
@@ -41,6 +43,26 @@ public class Tweet {
         tweet.tweet_id = jsonObject.getString("id");
         tweet.favorited = jsonObject.getBoolean("favorited");
         tweet.retweeted= jsonObject.getBoolean("retweeted");
+
+        if(jsonObject.has("extended_entities")){
+            try {
+
+                JSONObject media_obj = (JSONObject) jsonObject.getJSONObject("extended_entities").getJSONArray("media").get(0);
+                tweet.media_url = media_obj.getString("media_url");
+                tweet.media_type = media_obj.getString("type");
+                tweet.has_media = true;
+            } catch(Exception e){
+
+                Log.d("MEDIA", "media error");
+
+            }
+        }else{
+                tweet.has_media = false;
+                tweet.media_url = "";
+                tweet.media_type = "";
+        }
+
+
         return tweet;
     }
 
