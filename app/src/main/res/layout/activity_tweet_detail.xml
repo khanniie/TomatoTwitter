@@ -23,7 +23,9 @@
         android:layout_alignTop="@+id/ivProfileImage"
         android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/ivProfileImage"
-        android:text="username" />
+        android:text="username"
+        android:autoLink="all"
+        android:linksClickable="true"/>
 
     <TextView
         android:id="@+id/tvDate"
@@ -31,7 +33,8 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/ivProfileImage"
         android:layout_centerHorizontal="true"
-        android:text="" />
+        android:text=""
+        />
 
     <TextView
         android:id="@+id/tvBody"
@@ -39,7 +42,9 @@
         android:layout_height="37dp"
         android:layout_alignStart="@+id/ivProfileImage"
         android:layout_below="@+id/ivProfileImage"
-        android:text="TextView" />
+        android:text="TextView"
+        android:autoLink="all"
+        android:linksClickable="true"/>
 
     <Button
         android:id="@+id/btnLike"
@@ -67,4 +72,24 @@
         android:layout_alignStart="@+id/ivProfileImage"
         android:layout_below="@+id/tvBody"
         android:text="0 likes" />
+
+    <Button
+        android:id="@+id/btnReply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvBody"
+        android:layout_toEndOf="@+id/btnLike"
+        android:text="Reply"
+        android:background="@drawable/ic_comment"
+        android:onClick="reply"/>
+
+    <Button
+        android:id="@+id/btnRT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvBody"
+        android:layout_toEndOf="@+id/btnReply"
+        android:text="RETWEET"
+        android:onClick="retweet"/>
+
 </RelativeLayout>

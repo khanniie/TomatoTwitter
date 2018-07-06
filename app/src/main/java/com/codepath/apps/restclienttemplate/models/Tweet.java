@@ -21,6 +21,9 @@ public class Tweet {
     public String fav_count;
     public String tweet_id;
     public boolean favorited;
+    public boolean retweeted;
+    public boolean has_media;
+    public String media_url;
 
     public Tweet(){
 
@@ -33,12 +36,11 @@ public class Tweet {
         tweet.uid = jsonObject.getLong("id");
         tweet.createdAt = getRelativeTimeAgo(jsonObject.getString("created_at"));
         tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
-//        tweet.retweet_count = "rt";
-//        tweet.fav_count = "faves";
         tweet.retweet_count = jsonObject.getString("retweet_count");
         tweet.fav_count = jsonObject.getString("favorite_count");
         tweet.tweet_id = jsonObject.getString("id");
         tweet.favorited = jsonObject.getBoolean("favorited");
+        tweet.retweeted= jsonObject.getBoolean("retweeted");
         return tweet;
     }
 

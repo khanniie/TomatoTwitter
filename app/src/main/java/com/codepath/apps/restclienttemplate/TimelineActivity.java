@@ -71,8 +71,8 @@ public class TimelineActivity extends AppCompatActivity {
 
 //    @Override
 //    public void onResume(){
-////        super.onResume();
-////        fetchTimelineAsync(0);
+//        super.onResume();
+//        fetchTimelineAsync(0);
 //    }
 
     public void fetchTimelineAsync(int page) {
@@ -106,6 +106,7 @@ public class TimelineActivity extends AppCompatActivity {
         // handle click here
         Log.i("COMPOSE", "clicked");
         Intent i = new Intent(this, ComposeActivity.class);
+        i.putExtra("REPLY", false);
         startActivityForResult(i, REQUEST_CODE);
     }
 
