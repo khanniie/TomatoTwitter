@@ -68,13 +68,10 @@ public class TweetDetailActivity extends AppCompatActivity {
         favorite_count = Integer.parseInt(tweet.fav_count);
 
         if(tweet.has_media){
+
             Toast.makeText(this, "has media: " + tweet.media_type, Toast.LENGTH_LONG).show();
-            if(tweet.media_type.equals("animated_gif")){
-                Glide.with(this).load(tweet.media_url).asGif().into(ivMedia);
-            }
-            else{
-                Glide.with(this).load(tweet.media_url).into(ivMedia);
-            }
+            Glide.with(this).load(tweet.media_url).into(ivMedia);
+
         } else{
             ivMedia.setVisibility(View.GONE);
         }

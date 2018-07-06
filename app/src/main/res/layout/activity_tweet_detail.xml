@@ -59,9 +59,8 @@
         android:id="@+id/tvLikeAmt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/ivProfileImage"
-        android:layout_marginTop="217dp"
+        android:layout_below="@+id/ivMedia"
         android:text="0 likes" />
 
     <ImageButton
@@ -90,16 +89,16 @@
         android:layout_below="@+id/tvLikeAmt"
         android:layout_toEndOf="@+id/btnLike"
         android:background="@drawable/ic_vector_retweet_stroke"
-        android:backgroundTint="#555555"
         android:onClick="retweet" />
 
     <ImageView
         android:id="@+id/ivMedia"
-        android:layout_width="145dp"
-        android:layout_height="119dp"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
         android:layout_alignStart="@+id/ivProfileImage"
         android:layout_below="@+id/tvBody"
+        android:adjustViewBounds="true"
         android:visibility="visible"
-        app:srcCompat="@color/darkPink" />
+        app:srcCompat="@drawable/flicks_movie_placeholder" />
 
 </RelativeLayout>

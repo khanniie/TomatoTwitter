@@ -26,6 +26,8 @@ public class Tweet {
     public boolean has_media;
     public String media_url;
     public String media_type;
+    public boolean is_retweet;
+//    public Tweet original_tweet;
 
     public Tweet(){
 
@@ -43,20 +45,28 @@ public class Tweet {
         tweet.tweet_id = jsonObject.getString("id");
         tweet.favorited = jsonObject.getBoolean("favorited");
         tweet.retweeted= jsonObject.getBoolean("retweeted");
+        tweet.is_retweet = jsonObject.has("retweeted_status");
 
-        if(jsonObject.has("extended_entities")){
-            try {
+        if(jsonObject.getJSONObject("entities").has("media")){
 
-                JSONObject media_obj = (JSONObject) jsonObject.getJSONObject("extended_entities").getJSONArray("media").get(0);
+                JSONObject media_obj = (JSONObject)jsonObject.getJSONObject("entities").getJSONArray("media").get(0);
+                Log.i(tweet.user.name,media_obj.getString("media_url"));
                 tweet.media_url = media_obj.getString("media_url");
-                tweet.media_type = media_obj.getString("type");
                 tweet.has_media = true;
-            } catch(Exception e){
 
-                Log.d("MEDIA", "media error");
+        } else if(tweet.is_retweet){
 
+            JSONObject tweet_info = jsonObject.getJSONObject("retweeted_status").getJSONObject("entities");
+            tweet.has_media = false;
+            if(tweet_info.has("media")){
+                tweet.has_media = true;
+                JSONObject media = (JSONObject) tweet_info.getJSONArray("media").get(0);
+                tweet.media_url = media.getString("media_url");
+                Log.i(tweet.user.name + "RT", tweet.media_url);
             }
-        }else{
+
+        } else{
+                Log.i("MEDIA INFO", "media error");
                 tweet.has_media = false;
                 tweet.media_url = "";
                 tweet.media_type = "";
