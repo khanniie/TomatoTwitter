@@ -1,7 +1,6 @@
 package com.codepath.apps.restclienttemplate.models;
 
 import android.text.format.DateUtils;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +26,6 @@ public class Tweet {
     public String media_url;
     public String media_type;
     public boolean is_retweet;
-//    public Tweet original_tweet;
 
     public Tweet(){
 
@@ -50,7 +48,6 @@ public class Tweet {
         if(jsonObject.getJSONObject("entities").has("media")){
 
                 JSONObject media_obj = (JSONObject)jsonObject.getJSONObject("entities").getJSONArray("media").get(0);
-                Log.i(tweet.user.name,media_obj.getString("media_url"));
                 tweet.media_url = media_obj.getString("media_url");
                 tweet.has_media = true;
 
@@ -62,11 +59,9 @@ public class Tweet {
                 tweet.has_media = true;
                 JSONObject media = (JSONObject) tweet_info.getJSONArray("media").get(0);
                 tweet.media_url = media.getString("media_url");
-                Log.i(tweet.user.name + "RT", tweet.media_url);
             }
 
         } else{
-                Log.i("MEDIA INFO", "media error");
                 tweet.has_media = false;
                 tweet.media_url = "";
                 tweet.media_type = "";
@@ -89,7 +84,6 @@ public class Tweet {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return relativeDate;
     }
 

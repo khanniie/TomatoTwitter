@@ -16,6 +16,9 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
     //pass in tweets array
 
@@ -75,23 +78,16 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public ImageView ivProfileImage;
-        public TextView tvUsername;
-        public TextView tvBody;
-        public TextView tvDate;
-        public ImageView ivMedia;
+        @BindView(R.id.ivProfileImage) public ImageView ivProfileImage;
+        @BindView(R.id.tvUserName) public TextView tvUsername;
+        @BindView(R.id.tvBody) public TextView tvBody;
+        @BindView(R.id.tvDate) public TextView tvDate;
+        @BindView(R.id.ivMedia) public ImageView ivMedia;
 
         public ViewHolder(View itemView) {
-            super(itemView)
-;
-
-        ivProfileImage = (ImageView) itemView.findViewById(R.id.ivProfileImage );
-        tvUsername = (TextView) itemView.findViewById(R.id.tvUserName);
-        tvBody = (TextView) itemView.findViewById(R.id.tvBody);
-        tvDate = (TextView) itemView.findViewById(R.id.tvDate);
-        ivMedia = (ImageView) itemView.findViewById(R.id.ivMedia);
-        itemView.setOnClickListener(this);
-
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
         }
 
         @Override

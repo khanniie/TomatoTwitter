@@ -2,6 +2,7 @@ package com.codepath.apps.restclienttemplate;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -32,6 +34,7 @@ public class TimelineActivity extends AppCompatActivity {
     RecyclerView rvTweets;
     public static int REQUEST_CODE = 20;
     private SwipeRefreshLayout swipeContainer;
+    MenuItem miActionProgressItem;
 
 
     @Override
@@ -101,13 +104,38 @@ public class TimelineActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.login, menu);
         return true;
     }
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        //Log.i("PROGRESS BAR", miActionProgressItem.toString());
+        // Extract the action-view from the menu item
+        ProgressBar v =  (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
+        // Return to finish
+        return super.onPrepareOptionsMenu(menu);
+    }
+    @Override
+    public void onPause(){
+        super.onPause();
+        hideProgressBar();
+    }
 
     public void onComposeAction(MenuItem mi) {
         // handle click here
-        Log.i("COMPOSE", "clicked");
+        showProgressBar();
         Intent i = new Intent(this, ComposeActivity.class);
         i.putExtra("REPLY", false);
         startActivityForResult(i, REQUEST_CODE);
+    }
+
+    public void showProgressBar() {
+        // Show progress item
+        miActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        miActionProgressItem.setVisible(false);
     }
 
     @Override
@@ -127,6 +155,7 @@ public class TimelineActivity extends AppCompatActivity {
         }
     }
     private void getTweetList(){
+        showProgressBar();
         Toast.makeText(TimelineActivity.this, "trying to make tweet list", Toast.LENGTH_SHORT).show();
         List<Tweet> new_list;
         client.getHomeTimeline(
@@ -146,6 +175,7 @@ public class TimelineActivity extends AppCompatActivity {
                 tweetAdapter.addAll(temp_list);
                 // Now we call setRefreshing(false) to signal refresh has finished
                 swipeContainer.setRefreshing(false);
+                hideProgressBar();
               }
             });
     }
