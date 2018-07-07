@@ -25,7 +25,9 @@ import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cz.msebera.android.httpclient.Header;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class TweetDetailActivity extends AppCompatActivity {
 
@@ -62,13 +64,13 @@ public class TweetDetailActivity extends AppCompatActivity {
             btnRT.setBackgroundResource(R.drawable.ic_vector_retweet);
         }
 
-        Glide.with(this).load(tweet.user.profileImageUrl).into(ivProfileImage);
+        Glide.with(this).load(tweet.user.profileImageUrl).bitmapTransform(new RoundedCornersTransformation(context, 25, 0)).into(ivProfileImage);
         uid = tweet.uid + "";
         favorite_count = Integer.parseInt(tweet.fav_count);
 
         if(tweet.has_media){
 
-            Glide.with(this).load(tweet.media_url).into(ivMedia);
+            Glide.with(this).load(tweet.media_url).bitmapTransform(new RoundedCornersTransformation(context, 20, 0)).into(ivMedia);
 
         } else{
             ivMedia.setVisibility(View.GONE);
@@ -126,6 +128,12 @@ public class TweetDetailActivity extends AppCompatActivity {
                 hideProgressBar();
             }
         });
+    }
+    @OnClick(R.id.ivProfileImage)
+    public void seeFollowers(){
+        Intent i = new Intent(this, FollowersActivity.class);
+        i.putExtra("ID", tweet.user.uid);
+        startActivity(i);
     }
 
     @Override
